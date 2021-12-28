@@ -6,7 +6,8 @@ WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 400
 OBSTACLE_SIZE = 100
 fps = 30
-V = 40
+V = 80
+R = 20
 
 
 def load_image(name, color_key=None):
@@ -26,27 +27,26 @@ class Player:
     # класс героя, пока это шарик
     def __init__(self, screen):
         self.x_pos = 0
-        self.v = 40
         self.screen = screen
-        self.y_pos = 200
+        self.y_pos = WINDOW_HEIGHT / 2
         self.going = True
 
-    def run(self, clock):
-        pygame.draw.circle(self.screen, (255, 0, 0), (int(self.x_pos), self.y_pos), 20)
+    def draw(self):
+        pygame.draw.circle(self.screen, (255, 0, 0), (int(self.x_pos), self.y_pos), R)
+
+    def run(self):
         # print('герой', clock.tick())
-        if self.x_pos < 400:
-            self.x_pos += V * clock.tick() / 1000
+        if self.x_pos < WINDOW_WIDTH // 2:
+            self.x_pos += V / 1000
         else:
             self.going = False
 
     def change(self, *args):
         keys = args[0]
-        clock = args[1]
-        if keys[pygame.K_DOWN]:
-            self.y_pos = self.y_pos + 100
-
-        elif keys[pygame.K_UP]:
-            self.y_pos = self.y_pos - 100
+        if keys[pygame.K_DOWN] and self.y_pos < WINDOW_HEIGHT / 2 + OBSTACLE_SIZE:
+            self.y_pos = self.y_pos + OBSTACLE_SIZE
+        elif keys[pygame.K_UP] and self.y_pos > WINDOW_HEIGHT / 2 - OBSTACLE_SIZE:
+            self.y_pos = self.y_pos - OBSTACLE_SIZE
 
     def is_ball_going(self):
         return self.going
@@ -84,16 +84,11 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = OBSTACLE_SIZE * x
         self.rect.y = 50 + y * OBSTACLE_SIZE
-        self.v = 20
+        self.x_pos = float(self.rect.x)
 
     def update(self, *args):
-        self.rect.x -= self.v / fps
-        clock = args[0]
-        print('ost', clock.tick())
-
-        self.rect.x = self.rect.x - clock.tick()
-        print(self.rect.x)
-
+        self.x_pos -= V / 1000
+        self.rect.x = int(self.x_pos)
 
 def main():
     pygame.init()
@@ -114,23 +109,40 @@ def main():
             if some[i][j] == 1:
                 Obstacle(i, j, all_sprites)
 
+    win = False
+    hit = False
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
             if event.type == pygame.KEYDOWN:
-                player.change(pygame.key.get_pressed(), clock)
+                player.change(pygame.key.get_pressed())
 
         screen.fill((0, 0, 0))
 
         field.draw_lines()
 
         all_sprites.draw(screen)
-        if not player.going:
-            all_sprites.update(clock)
-        #
-        player.run(clock)
+        player.draw()
+        if not win:  # обработать победу
+            if not hit:  # обработать столкновение
+                if not player.going:
+                    all_sprites.update()
+                else:
+                    player.run()
+
+        counter = len(all_sprites)
+        for sprite in all_sprites.spritedict:
+            if player.y_pos > sprite.rect.y and player.y_pos < sprite.rect.y + OBSTACLE_SIZE:
+                if player.x_pos + R >= sprite.rect.x and player.x_pos - R <= sprite.rect.x + OBSTACLE_SIZE:
+                    hit = True  # обработать столкновение
+                    # print('hit')
+            if sprite.rect.x + OBSTACLE_SIZE < WINDOW_WIDTH // 2:
+                counter -= 1
+
+        if counter == 0:
+            win = True  # обработать победу
 
         pygame.display.flip()
     pygame.quit()
