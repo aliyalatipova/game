@@ -1,5 +1,3 @@
-АлияАлия
-Яндекс, [28.12.2021 23: 36]
 import pygame
 import sys
 import os
@@ -12,7 +10,7 @@ V = 80
 R = 15
 
 
-def load_image(name, color_key=None):
+def load_image(name, color_key=None):                           # писала алия(13-23)
     fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
@@ -25,7 +23,7 @@ def load_image(name, color_key=None):
     return image
 
 
-class Player:
+class Player:               # писала Алия(26-35)
     # класс героя, пока это шарик
     def __init__(self, screen):
         self.x_pos = 0
@@ -36,7 +34,7 @@ class Player:
     def draw(self):
         pygame.draw.circle(self.screen, (255, 0, 0), (int(self.x_pos), self.y_pos), R)
 
-    def run(self):
+    def run(self):          #писала София(37-49)
         # print('герой', clock.tick())
         if self.x_pos < WINDOW_WIDTH // 2:
             self.x_pos += V / 1000
@@ -54,7 +52,7 @@ class Player:
         return self.going
 
 
-class Field:
+class Field:            # писала Алия(55-73)
     def __init__(self, screen):
         self.screen = screen
 
@@ -75,7 +73,7 @@ def return_list(name_file='one'):
     return map1
 
 
-class Obstacle(pygame.sprite.Sprite):
+class Obstacle(pygame.sprite.Sprite):       # писала Алия, исправила София(76-85)
     image = load_image("obst2.png")
 
     def __init__(self, x, y, *group):
@@ -86,12 +84,12 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.y = 50 + y * OBSTACLE_SIZE
         self.x_pos = float(self.rect.x)
 
-    def update(self, *args):
+    def update(self, *args):            #писала София(89-87)
         self.x_pos -= V / 1000
         self.rect.x = int(self.x_pos)
 
 
-def main():
+def main():         # писала Алия(92-102)
     pygame.init()
     pygame.display.set_caption('попытка 1')
     size = width, height = WINDOW_WIDTH, WINDOW_HEIGHT
@@ -103,7 +101,7 @@ def main():
     field = Field(screen)
     clock = pygame.time.Clock()
 
-    all_sprites = pygame.sprite.Group()
+    all_sprites = pygame.sprite.Group()         # писала София(104-150)
     some = return_list()
     for i in range(len(some)):
         for j in range(3):
