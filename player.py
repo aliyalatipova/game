@@ -7,8 +7,9 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
     image = loadImage("dragon_sheet8x2.png")
 
     # класс героя, пока это шарик
-    def __init__(self, screen, columns, rows, *group):
+    def __init__(self, v, screen, columns, rows, *group):
         super().__init__(*group)
+        self.v = v
         self.x_pos = 0
         self.screen = screen
         self.y_pos = WINDOW_HEIGHT / 2
@@ -37,7 +38,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
     def run(self):          #писала София(37-49)
         # print('герой', clock.tick())
         if self.x_pos < WINDOW_WIDTH // 2:
-            self.x_pos += V / 1000
+            self.x_pos += self.v / 1000
         else:
             self.going = False
 
