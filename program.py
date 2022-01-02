@@ -38,11 +38,14 @@ def start_screen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
-            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_1] or pygame.key.get_pressed()[pygame.K_KP1]):
+            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_1] \
+                                                   or pygame.key.get_pressed()[pygame.K_KP1]):
                 return 1
-            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_2] or pygame.key.get_pressed()[pygame.K_KP2]):
+            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_2] \
+                                                   or pygame.key.get_pressed()[pygame.K_KP2]):
                 return 2
-            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_3] or pygame.key.get_pressed()[pygame.K_KP3]):
+            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_3] \
+                                                   or pygame.key.get_pressed()[pygame.K_KP3]):
                 return 3
             elif event.type == pygame.KEYDOWN or \
                     event.type == pygame.MOUSEBUTTONDOWN:
@@ -55,9 +58,9 @@ def level_start_screen(screen, level):
     intro_text = ["Уровень " + str(level) + ".",
                   "Нажмите любую кнопку для начала."]
     fon = pygame.transform.scale(loadImage('fon.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
-    screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
+    screen.blit(fon, (1, 0))
+    font = pygame.font.Font(None, 45)
+    text_coord = 60
     for line in intro_text:
         string_rendered = font.render(line, 1, pygame.Color('white'))
         intro_rect = string_rendered.get_rect()
@@ -82,13 +85,14 @@ def level_start_screen(screen, level):
 def lose_screen(screen):
     # Когда сделаем жизни, здесь надо будет менять текст
     intro_text = ["Вы проиграли.", "",
-                  "Нажмите любую кнопку, чтобы начать заново."]
-    fon = pygame.transform.scale(loadImage('fon.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
+                  "Нажмите любую кнопку,",
+                  "чтобы начать заново."]
+    fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
+    font = pygame.font.Font(None, 75)
+    text_coord = 65
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
+        string_rendered = font.render(line, 1, pygame.Color('red'))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
@@ -111,12 +115,12 @@ def lose_screen(screen):
 def win_screen(screen):
     intro_text = ["Вы выиграли!", "",
                   "Нажмите любую кнопку, чтобы закончить."]
-    fon = pygame.transform.scale(loadImage('fon.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
+    fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
+    font = pygame.font.Font(None, 75)
+    text_coord = 75
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
+        string_rendered = font.render(line, 1, pygame.Color('green'))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
