@@ -190,6 +190,18 @@ def main():
                     if some[i][j] == '1':
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
                             Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+                    if some[i][j] == '2':
+                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                            Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                            Coins(V + V_delta * (level - 1), i, n, j, 1, coins_sprites)
+                    if some[i][j] == '3':
+                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                            Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                            Coins(V + V_delta * (level - 1), i, n, j, 1, coins_sprites)
+                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                            Coins(V + V_delta * (level - 1), i, n, j, 2, coins_sprites)
 
         else:
             for i in range(len(some)):
@@ -212,8 +224,9 @@ def main():
             field.draw_lines()
 
             obst_sprites.draw(screen)
-            dragon_sprite.draw(screen)
             coins_sprites.draw(screen)
+            dragon_sprite.draw(screen)
+
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:
                 dragon_sprite.update()
@@ -232,7 +245,6 @@ def main():
                     if player.x_pos + R >= sprite.rect.x and player.x_pos - R <= sprite.rect.x + OBSTACLE_SIZE:
                         hit = True  # обработать столкновение
                         running = False
-                        # print('hit')
                 if sprite.rect.x + OBSTACLE_SIZE < WINDOW_WIDTH // 2:
                     counter -= 1
 
