@@ -8,9 +8,11 @@ class LevelLoader:
         map1 = list()
         f = open(f"""data\\level{self.level}.txt""", encoding="utf8")
         for number, line in enumerate(f):
-            line1 = [int(line[0]), int(line[1]), int(line[2])]
+            line1 = [str(line[0]), str(line[1]), str(line[2])]
             map1.append(line1)
 
         f.close()
         # вот эта функция должна будет по имени текстового файла вернуть список
         return map1
+
+

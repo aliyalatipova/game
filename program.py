@@ -8,6 +8,23 @@ from loadImage import loadImage
 import sys
 
 
+class Coins(pygame.sprite.Sprite):
+    image = loadImage("m4.png")
+
+    def __init__(self, v, x1, x2, y1, y2, *group):
+        super().__init__(*group)
+        self.v = v
+        self.image = Coins.image
+        self.rect = self.image.get_rect()
+        self.rect.x = OBSTACLE_SIZE * x1 + COIN_SIZE * x2
+        self.rect.y = (50 + y1 * OBSTACLE_SIZE) + (OBSTACLE_SIZE // 2 - 1.5 * COIN_SIZE) + COIN_SIZE * y2
+        self.x_pos = float(self.rect.x)
+
+    def update(self, *args):
+        self.x_pos -= self.v / 1000
+        self.rect.x = int(self.x_pos)
+
+
 def terminate():
     pygame.quit()
     sys.exit()
@@ -114,7 +131,7 @@ def lose_screen(screen):
 
 def win_screen(screen):
     intro_text = ["Вы выиграли!", "",
-                  "Нажмите любую кнопку, чтобы закончить."]
+                  "Нажмите любую кнопку", "чтобы закончить."]
     fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 75)
@@ -140,9 +157,8 @@ def win_screen(screen):
         clock.tick(fps)
 
 
-def main():         # писала Алия(92-102)
+def main():
     pygame.init()
-    level_count = 3
     size = WINDOW_WIDTH, WINDOW_HEIGHT
     screen = pygame.display.set_mode(size)
     level = start_screen(screen)
@@ -150,7 +166,7 @@ def main():         # писала Алия(92-102)
     # здесь надо показать стартовое окно с выбором уровня (переменная level)
 
     hit = False
-    while level <= level_count and hit == False:
+    while level <= LEVEL_COUNT and not hit:
         level_start_screen(screen, level)
 
         pygame.display.set_caption('Уровень ' + str(level))
@@ -160,13 +176,26 @@ def main():         # писала Алия(92-102)
         player = Player(V + V_delta * (level - 1), screen, 8, 2, dragon_sprite)
         field = Field(screen)
 
-        all_sprites = pygame.sprite.Group()         # писала София(104-150)
+        obst_sprites = pygame.sprite.Group()
+        coins_sprites = pygame.sprite.Group()
+
         level_loader = LevelLoader(level)
         some = level_loader.load()
-        for i in range(len(some)):
-            for j in range(3):
-                if some[i][j] == 1:
-                    Obstacle(V + V_delta * (level - 1), i, j, all_sprites)
+        # обработка списка уровня
+        if level == 1:  # так как в новом формате прописан только 1 уровень
+            for i in range(len(some)):
+                for j in range(3):
+                    if some[i][j] == '#':
+                        Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
+                    if some[i][j] == '1':
+                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                            Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+
+        else:
+            for i in range(len(some)):
+                for j in range(3):
+                    if some[i][j] == '1':
+                        Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
 
         win = False
         iteration_count = 0
@@ -182,8 +211,9 @@ def main():         # писала Алия(92-102)
 
             field.draw_lines()
 
-            all_sprites.draw(screen)
+            obst_sprites.draw(screen)
             dragon_sprite.draw(screen)
+            coins_sprites.draw(screen)
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:
                 dragon_sprite.update()
@@ -191,13 +221,14 @@ def main():         # писала Алия(92-102)
             if not win:  # обработать победу
                 if not hit:  # обработать столкновение
                     if not player.going:
-                        all_sprites.update()
+                        obst_sprites.update()
+                        coins_sprites.update()
                     else:
                         player.run()
 
-            counter = len(all_sprites)
-            for sprite in all_sprites.spritedict:
-                if player.y_pos > sprite.rect.y and player.y_pos < sprite.rect.y + OBSTACLE_SIZE:
+            counter = len(obst_sprites)
+            for sprite in obst_sprites.spritedict:
+                if (player.y_pos > sprite.rect.y) and (player.y_pos < sprite.rect.y + OBSTACLE_SIZE):
                     if player.x_pos + R >= sprite.rect.x and player.x_pos - R <= sprite.rect.x + OBSTACLE_SIZE:
                         hit = True  # обработать столкновение
                         running = False
