@@ -6,7 +6,7 @@ from loadImage import loadImage
 class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
     image = loadImage("dragon_sheet8x2.png")
 
-    # класс героя, пока это шарик
+    # класс героя, пока это динозавр с урока
     def __init__(self, v, screen, columns, rows, *group):
         super().__init__(*group)
         self.v = v
@@ -35,8 +35,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
 
-    def run(self):          #писала София(37-49)
-        # print('герой', clock.tick())
+    def run(self):
         if self.x_pos < WINDOW_WIDTH // 2:
             self.x_pos += self.v / 1000
         else:

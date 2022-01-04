@@ -189,7 +189,7 @@ def main():
                         Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
                     if some[i][j] == '1':
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+                            Coins(V + V_delta * (level - 1), i, n, j, 1, coins_sprites)
                     if some[i][j] == '2':
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
                             Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
@@ -226,7 +226,7 @@ def main():
             obst_sprites.draw(screen)
             coins_sprites.draw(screen)
             dragon_sprite.draw(screen)
-
+ 
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:
                 dragon_sprite.update()
