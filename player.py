@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(0, 150)
+        self.money_in_one_race = 0
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
@@ -50,3 +51,10 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
 
     def is_ball_going(self):
         return self.going
+
+    def coins_check(self, *args):
+        coins_sprite = args[0]
+        if pygame.sprite.spritecollide(self, coins_sprite, False):
+            self.money_in_one_race += len(pygame.sprite.spritecollide(self, coins_sprite, False))
+        pygame.sprite.spritecollide(self, coins_sprite, True)
+

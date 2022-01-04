@@ -166,6 +166,7 @@ def main():
     # здесь надо показать стартовое окно с выбором уровня (переменная level)
 
     hit = False
+    money_count = 0
     while level <= LEVEL_COUNT and not hit:
         level_start_screen(screen, level)
 
@@ -230,6 +231,9 @@ def main():
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:
                 dragon_sprite.update()
+
+
+            player.coins_check(coins_sprites)
 
             if not win:  # обработать победу
                 if not hit:  # обработать столкновение
