@@ -232,8 +232,8 @@ def main():
             if iteration_count == 5:
                 dragon_sprite.update()
 
-
             player.coins_check(coins_sprites)
+            player.text_money(screen)
 
             if not win:  # обработать победу
                 if not hit:  # обработать столкновение
@@ -254,11 +254,13 @@ def main():
 
             if counter == 0:
                 win = True  # обработать победу
+                player.count_money()
                 running = False
 
             pygame.display.flip()
 
         if hit is True:
+            player.count_money()
             lose_screen(screen)
             level = start_screen(screen)
             hit = False

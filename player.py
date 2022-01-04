@@ -58,3 +58,11 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
             self.money_in_one_race += len(pygame.sprite.spritecollide(self, coins_sprite, False))
         pygame.sprite.spritecollide(self, coins_sprite, True)
 
+    def count_money(self):
+        print(self.money_in_one_race)
+
+    def text_money(self, screen):
+        font = pygame.font.Font(None, 50)
+        text = font.render(str(self.money_in_one_race), True, 'White')
+        screen.blit(text, (700, 10))
+
