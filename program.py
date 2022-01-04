@@ -42,7 +42,7 @@ def start_screen(screen):
     font = pygame.font.Font(None, 30)
     text_coord = 50
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
+        string_rendered = font.render(line, True, pygame.Color('white'))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
@@ -55,13 +55,13 @@ def start_screen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
-            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_1] \
+            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_1]
                                                    or pygame.key.get_pressed()[pygame.K_KP1]):
                 return 1
-            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_2] \
+            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_2]
                                                    or pygame.key.get_pressed()[pygame.K_KP2]):
                 return 2
-            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_3] \
+            elif event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_3]
                                                    or pygame.key.get_pressed()[pygame.K_KP3]):
                 return 3
             elif event.type == pygame.KEYDOWN or \
@@ -79,7 +79,7 @@ def level_start_screen(screen, level):
     font = pygame.font.Font(None, 45)
     text_coord = 60
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
+        string_rendered = font.render(line, True, pygame.Color('white'))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
@@ -109,7 +109,7 @@ def lose_screen(screen):
     font = pygame.font.Font(None, 75)
     text_coord = 65
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('red'))
+        string_rendered = font.render(line, True, pygame.Color('red'))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
@@ -137,7 +137,7 @@ def win_screen(screen):
     font = pygame.font.Font(None, 75)
     text_coord = 75
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('green'))
+        string_rendered = font.render(line, True, pygame.Color('green'))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
