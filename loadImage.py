@@ -2,8 +2,7 @@ import pygame
 import sys
 import os
 
-
-def loadImage(name, color_key=None):                           # писала алия(13-23)
+def loadImage(name, color_key=None):                           # писала алия
     fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")

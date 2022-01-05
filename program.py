@@ -5,7 +5,8 @@ from field import Field
 from levelLoader import LevelLoader
 from const import *
 from loadImage import loadImage
-from coins import Coins
+# from coins import Coins
+from Coins2 import Coins2
 import sys
 
 
@@ -173,25 +174,25 @@ def main():
                         Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
                     if some[i][j] == '1':
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 1, coins_sprites)
+                            Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
                     if some[i][j] == '2':
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+                            Coins2(V + V_delta * (level - 1), i, n, j, 0, 10, 1, coins_sprites)
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 1, coins_sprites)
+                            Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
                     if some[i][j] == '3':
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 0, coins_sprites)
+                            Coins2(V + V_delta * (level - 1), i, n, j, 0, 10, 1, coins_sprites)
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 1, coins_sprites)
+                            Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins(V + V_delta * (level - 1), i, n, j, 2, coins_sprites)
+                            Coins2(V + V_delta * (level - 1), i, n, j, 2, 10, 1, coins_sprites)
 
-        #else:
-            #for i in range(len(some)):
-                #for j in range(3):
-                    #if some[i][j] == '1':
-                        #Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
+        # else:
+            # for i in range(len(some)):
+                # for j in range(3):
+                    # if some[i][j] == '1':
+                        # Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
 
         win = False
         iteration_count = 0
@@ -214,6 +215,7 @@ def main():
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:
                 dragon_sprite.update()
+                # coins_sprites.update()
 
             player.coins_check(coins_sprites)
             player.text_money(screen)
@@ -224,6 +226,7 @@ def main():
                         obst_sprites.update()
                         coins_sprites.update()
                     else:
+                        coins_sprites.update(False)
                         player.run()
 
             counter = len(obst_sprites)
