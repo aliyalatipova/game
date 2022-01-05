@@ -5,6 +5,7 @@ from field import Field
 from levelLoader import LevelLoader
 from const import *
 from loadImage import loadImage
+from coins import Coins
 import sys
 
 
@@ -149,7 +150,6 @@ def main():
     # здесь надо показать стартовое окно с выбором уровня (переменная level)
 
     hit = False
-    money_count = 0
     while level <= LEVEL_COUNT and not hit:
         level_start_screen(screen, level)
 
@@ -166,7 +166,7 @@ def main():
         level_loader = LevelLoader(level)
         some = level_loader.load()
         # обработка списка уровня
-        if level == 1:  # так как в новом формате прописан только 1 уровень
+        if level == 1 or level == 2 or level == 3:  # так как в новом формате прописан только 1 уровень
             for i in range(len(some)):
                 for j in range(3):
                     if some[i][j] == '#':
@@ -187,11 +187,11 @@ def main():
                         for n in range(OBSTACLE_SIZE // COIN_SIZE):
                             Coins(V + V_delta * (level - 1), i, n, j, 2, coins_sprites)
 
-        else:
-            for i in range(len(some)):
-                for j in range(3):
-                    if some[i][j] == '1':
-                        Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
+        #else:
+            #for i in range(len(some)):
+                #for j in range(3):
+                    #if some[i][j] == '1':
+                        #Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
 
         win = False
         iteration_count = 0
