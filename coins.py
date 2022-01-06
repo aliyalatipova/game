@@ -18,3 +18,5 @@ class Coins(pygame.sprite.Sprite):
     def update(self, *args):
         self.x_pos -= self.v / 1000
         self.rect.x = int(self.x_pos)
+
+

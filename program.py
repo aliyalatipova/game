@@ -167,7 +167,7 @@ def main():
         level_loader = LevelLoader(level)
         some = level_loader.load()
         # обработка списка уровня
-        if level == 1 or level == 2 or level == 3:  # так как в новом формате прописан только 1 уровень
+        if level == 1 or level == 2 or level == 3:
             for i in range(len(some)):
                 for j in range(3):
                     if some[i][j] == '#':
