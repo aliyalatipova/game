@@ -4,7 +4,7 @@ from loadImage import loadImage
 
 
 class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
-    image = loadImage("dragon_sheet8x2.png")
+    image = loadImage("динозавр 4.png", -1)
 
     # класс героя, пока это динозавр с урока
     def __init__(self, v, screen, columns, rows, *group):
