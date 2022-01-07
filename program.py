@@ -8,7 +8,7 @@ from loadImage import loadImage
 import sys
 
 
-def terminate():
+def terminate():            # писала софия(1-143)
     pygame.quit()
     sys.exit()
 
@@ -140,7 +140,7 @@ def win_screen(screen):
         clock.tick(fps)
 
 
-def main():         # писала Алия(92-102)
+def main():         # писала Алия(143-161)
     pygame.init()
     level_count = 3
     size = WINDOW_WIDTH, WINDOW_HEIGHT
@@ -160,7 +160,7 @@ def main():         # писала Алия(92-102)
         player = Player(V + V_delta * (level - 1), screen, 8, 2, dragon_sprite)
         field = Field(screen)
 
-        all_sprites = pygame.sprite.Group()         # писала София(104-150)
+        all_sprites = pygame.sprite.Group()         # писала София(164 -226)
         level_loader = LevelLoader(level)
         some = level_loader.load()
         for i in range(len(some)):

@@ -3,7 +3,7 @@ from const import *
 from loadImage import loadImage
 
 
-class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
+class Player(pygame.sprite.Sprite):               # писала Алия(1-30)
     image = loadImage("dragon_sheet8x2.png")
 
     # класс героя, пока это шарик
@@ -35,7 +35,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
 
-    def run(self):          #писала София(37-49)
+    def run(self):          #писала София(38-53)
         # print('герой', clock.tick())
         if self.x_pos < WINDOW_WIDTH // 2:
             self.x_pos += self.v / 1000
