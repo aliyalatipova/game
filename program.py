@@ -5,8 +5,8 @@ from field import Field
 from levelLoader import LevelLoader
 from const import *
 from loadImage import loadImage
-# from coins import Coins
 from Coins2 import Coins2
+from All_money_counter import AllMoneyCounter
 import sys
 
 
@@ -142,6 +142,43 @@ def win_screen(screen):
         clock.tick(fps)
 
 
+# обработка списка уровня, писала алия
+def list_processing(level, some, obst_sprites, coins_sprites):  # писала алия
+    if level == 1 or level == 2 or level == 3:
+        for i in range(len(some)):
+            for j in range(3):
+                if some[i][j] == '#':
+                    Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
+                if some[i][j] == '1':
+                    for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                        Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
+                if some[i][j] == '2':
+                    for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                        Coins2(V + V_delta * (level - 1), i, n, j, 0, 10, 1, coins_sprites)
+                    for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                        Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
+                if some[i][j] == '3':
+                    for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                        Coins2(V + V_delta * (level - 1), i, n, j, 0, 10, 1, coins_sprites)
+                    for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                        Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
+                    for n in range(OBSTACLE_SIZE // COIN_SIZE):
+                        Coins2(V + V_delta * (level - 1), i, n, j, 2, 10, 1, coins_sprites)
+
+
+# функции, которфе должны выполнятся каждую итерацию, писала алия
+def functions_for_each_iteration(screen, field, obst_sprites, coins_sprites, dragon_sprite, player, all_money_counter):
+    screen.fill((0, 0, 0))
+    field.draw_lines()
+    obst_sprites.draw(screen)
+    coins_sprites.draw(screen)
+    dragon_sprite.draw(screen)
+    player.coins_check(coins_sprites)
+    player.text_money(screen)
+    money_in_one_race = player.return_number_money_in_one_race()
+    all_money_counter.print_all_money(screen, money_in_one_race)
+
+
 def main():
     pygame.init()
     size = WINDOW_WIDTH, WINDOW_HEIGHT
@@ -152,47 +189,26 @@ def main():
 
     hit = False
     while level <= LEVEL_COUNT and not hit:
+
         level_start_screen(screen, level)
 
         pygame.display.set_caption('Уровень ' + str(level))
         running = True
 
+        # cсоздание групп спрайтов и объектов
         dragon_sprite = pygame.sprite.Group()
         player = Player(V + V_delta * (level - 1), screen, 8, 2, dragon_sprite)
         field = Field(screen)
-
         obst_sprites = pygame.sprite.Group()
         coins_sprites = pygame.sprite.Group()
 
+        all_money_counter = AllMoneyCounter()
+        all_money_counter.load_from_txt()
         level_loader = LevelLoader(level)
         some = level_loader.load()
-        # обработка списка уровня
-        if level == 1 or level == 2 or level == 3:
-            for i in range(len(some)):
-                for j in range(3):
-                    if some[i][j] == '#':
-                        Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
-                    if some[i][j] == '1':
-                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
-                    if some[i][j] == '2':
-                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins2(V + V_delta * (level - 1), i, n, j, 0, 10, 1, coins_sprites)
-                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
-                    if some[i][j] == '3':
-                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins2(V + V_delta * (level - 1), i, n, j, 0, 10, 1, coins_sprites)
-                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins2(V + V_delta * (level - 1), i, n, j, 1, 10, 1, coins_sprites)
-                        for n in range(OBSTACLE_SIZE // COIN_SIZE):
-                            Coins2(V + V_delta * (level - 1), i, n, j, 2, 10, 1, coins_sprites)
 
-        # else:
-            # for i in range(len(some)):
-                # for j in range(3):
-                    # if some[i][j] == '1':
-                        # Obstacle(V + V_delta * (level - 1), i, j, obst_sprites)
+        # обработка списка уровня
+        list_processing(level, some, obst_sprites, coins_sprites)
 
         win = False
         iteration_count = 0
@@ -204,21 +220,12 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     player.change(pygame.key.get_pressed())
 
-            screen.fill((0, 0, 0))
-
-            field.draw_lines()
-
-            obst_sprites.draw(screen)
-            coins_sprites.draw(screen)
-            dragon_sprite.draw(screen)
+            functions_for_each_iteration(screen, field, obst_sprites, coins_sprites, dragon_sprite, player, all_money_counter)
  
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:
                 dragon_sprite.update()
                 # coins_sprites.update()
-
-            player.coins_check(coins_sprites)
-            player.text_money(screen)
 
             if not win:  # обработать победу
                 if not hit:  # обработать столкновение

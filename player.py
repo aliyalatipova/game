@@ -66,3 +66,6 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
         text = font.render(str(self.money_in_one_race), True, 'White')
         screen.blit(text, (700, 10))
 
+    def return_number_money_in_one_race(self):
+        return int(self.money_in_one_race)
+
