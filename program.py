@@ -220,7 +220,8 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     player.change(pygame.key.get_pressed())
 
-            functions_for_each_iteration(screen, field, obst_sprites, coins_sprites, dragon_sprite, player, all_money_counter)
+            functions_for_each_iteration(screen, field, obst_sprites, coins_sprites, dragon_sprite, player,
+                                         all_money_counter)
  
             iteration_count = (iteration_count + 1) % 80
             if iteration_count == 5:

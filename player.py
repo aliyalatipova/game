@@ -68,4 +68,3 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
 
     def return_number_money_in_one_race(self):
         return int(self.money_in_one_race)
-
