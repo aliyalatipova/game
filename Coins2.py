@@ -4,9 +4,9 @@ from loadImage import loadImage
 
 
 class Coins2(pygame.sprite.Sprite):
-    image = loadImage("coins7.png", -1)
+    image = loadImage("coins11.png", -1)
 
-    def __init__(self, v, x1, x2, y1, y2, columns=6, rows=1, *group):
+    def __init__(self, v, x1, x2, y1, y2, columns=10, rows=1, *group):
         super().__init__(*group)
         self.frames = []
         self.cut_sheet(self.image, columns, rows)
