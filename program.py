@@ -179,6 +179,12 @@ def functions_for_each_iteration(screen, field, obst_sprites, coins_sprites, dra
     all_money_counter.print_all_money(screen, money_in_one_race)
 
 
+def end_of_one_race(player, all_money_counter):
+    player.count_money()
+    money_in_one_race = player.return_number_money_in_one_race()
+    all_money_counter.load_in_txt(money_in_one_race)
+
+
 def main():
     pygame.init()
     size = WINDOW_WIDTH, WINDOW_HEIGHT
@@ -248,13 +254,13 @@ def main():
 
             if counter == 0:
                 win = True  # обработать победу
-                player.count_money()
+                end_of_one_race(player, all_money_counter)
                 running = False
 
             pygame.display.flip()
 
         if hit is True:
-            player.count_money()
+            end_of_one_race(player, all_money_counter)
             lose_screen(screen)
             level = start_screen(screen)
             hit = False

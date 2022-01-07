@@ -12,7 +12,6 @@ class LevelLoader:
             map1.append(line1)
 
         f.close()
-        # вот эта функция должна будет по имени текстового файла вернуть список
         return map1
 
 
