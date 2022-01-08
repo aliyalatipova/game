@@ -191,17 +191,14 @@ def main():
     screen = pygame.display.set_mode(size)
     level = start_screen(screen)
 
-    # здесь надо показать стартовое окно с выбором уровня (переменная level)
-
     hit = False
     while level <= LEVEL_COUNT and not hit:
-
         level_start_screen(screen, level)
 
         pygame.display.set_caption('Уровень ' + str(level))
         running = True
 
-        # cсоздание групп спрайтов и объектов
+        # cоздание групп спрайтов и объектов
         dragon_sprite = pygame.sprite.Group()
         player = Player(V + V_delta * (level - 1), screen, 8, 2, dragon_sprite)
         field = Field(screen)
@@ -221,7 +218,7 @@ def main():
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    terminate()
 
                 if event.type == pygame.KEYDOWN:
                     player.change(pygame.key.get_pressed())
