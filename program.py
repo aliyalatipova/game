@@ -60,9 +60,13 @@ def start_screen(screen):
         clock.tick(fps)
 
 
-def level_start_screen(screen, level):
+def level_start_screen(screen, level, last_level_coins):
     intro_text = ["Уровень " + str(level) + ".",
-                  "Нажмите любую кнопку для начала."]
+                  "Нажмите любую кнопку для начала.", ""]
+
+    if last_level_coins > 0:
+        intro_text.append("В прошлом уровне вы заработали " + str(last_level_coins) + " монет!")
+
     fon = pygame.transform.scale(loadImage('fon.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.blit(fon, (1, 0))
     font = pygame.font.Font(None, 45)
@@ -202,8 +206,10 @@ def main():
     level = start_screen(screen)
 
     hit = False
+    last_level_coins = 0  # монеты, заработанные в прошлом уровне
     while level <= LEVEL_COUNT and not hit:
-        level_start_screen(screen, level)
+        level_start_screen(screen, level, last_level_coins)
+        last_level_coins = 0
 
         pygame.display.set_caption('Уровень ' + str(level))
         running = True
@@ -266,6 +272,7 @@ def main():
 
             if counter == 0:
                 win = True  # обработать победу
+                last_level_coins = all_money_counter.get_money_in_one_race()
                 end_of_one_race(player, all_money_counter)
                 running = False
 
