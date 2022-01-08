@@ -16,7 +16,11 @@ def terminate():            # писала софия(1-143)
 
 
 def start_screen(screen):
-    intro_text = ["GO FAST", "",
+    all_money_counter = AllMoneyCounter()
+    all_money_counter.load_from_txt()
+    coins = str(all_money_counter.money_at_start_of_race)
+    intro_text = ["GO FAST                                                    Монет заработано: " + coins,
+                  "",
                   "Чтобы управлять игроком, необходимо,",
                   "использовать клавиши 'вверх', 'вниз'.",
                   "Нажмите [1], [2] или [3] для выбора уровня,",
@@ -84,14 +88,15 @@ def level_start_screen(screen, level):
         clock.tick(fps)
 
 
-def lose_screen(screen):
+def lose_screen(screen, all_money_counter):
     # Когда сделаем жизни, здесь надо будет менять текст
     intro_text = ["Вы проиграли.", "",
-                  "Нажмите любую кнопку,",
-                  "чтобы начать заново."]
+                  "Нажмите любую кнопку, чтобы начать заново."]
+    if all_money_counter.get_all_money() > LIFE_PRICE:
+        intro_text.append("Либо нажмите [D], чтобы купить жизнь за " + str(LIFE_PRICE) + " монет.")
     fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 75)
+    font = pygame.font.Font(None, 45)
     text_coord = 65
     for line in intro_text:
         string_rendered = font.render(line, True, pygame.Color('red'))
@@ -107,9 +112,16 @@ def lose_screen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
+            elif event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_d]:
+                if all_money_counter.get_all_money() > LIFE_PRICE:
+                    all_money_counter.set_money_at_start_of_race(all_money_counter.get_all_money() - LIFE_PRICE)
+                    all_money_counter.load_to_txt()
+                    return True
+                else:
+                    return False
             elif event.type == pygame.KEYDOWN or \
                     event.type == pygame.MOUSEBUTTONDOWN:
-                return
+                return False
         pygame.display.flip()
         clock.tick(fps)
 
@@ -166,23 +178,21 @@ def list_processing(level, some, obst_sprites, coins_sprites):  # писала �
                         Coins2(V + V_delta * (level - 1), i, n, j, 2, 10, 1, coins_sprites)
 
 
-# функции, которфе должны выполнятся каждую итерацию, писала алия
+# функции, которые должны выполнятся каждую итерацию, писала алия
 def functions_for_each_iteration(screen, field, obst_sprites, coins_sprites, dragon_sprite, player, all_money_counter):
     screen.fill((0, 0, 0))
     field.draw_lines()
     obst_sprites.draw(screen)
     coins_sprites.draw(screen)
     dragon_sprite.draw(screen)
-    player.coins_check(coins_sprites)
-    player.text_money(screen)
-    money_in_one_race = player.return_number_money_in_one_race()
-    all_money_counter.print_all_money(screen, money_in_one_race)
+    player.coins_check(all_money_counter, coins_sprites)
+    player.text_money(screen, all_money_counter)
+    all_money_counter.print_all_money(screen)
 
 
 def end_of_one_race(player, all_money_counter):
-    player.count_money()
-    money_in_one_race = player.return_number_money_in_one_race()
-    all_money_counter.load_in_txt(money_in_one_race)
+    player.count_money(all_money_counter)
+    all_money_counter.load_to_txt()
 
 
 def main():
@@ -246,6 +256,11 @@ def main():
                     if player.x_pos + R >= sprite.rect.x and player.x_pos - R <= sprite.rect.x + OBSTACLE_SIZE:
                         hit = True  # обработать столкновение
                         running = False
+                        end_of_one_race(player, all_money_counter)
+                        if lose_screen(screen, all_money_counter):
+                            hit = False
+                            running = True
+                            player.x_pos -= 80
                 if sprite.rect.x + OBSTACLE_SIZE < WINDOW_WIDTH // 2:
                     counter -= 1
 
@@ -258,7 +273,7 @@ def main():
 
         if hit is True:
             end_of_one_race(player, all_money_counter)
-            lose_screen(screen)
+            # lose_screen(screen, all_money_counter)
             level = start_screen(screen)
             hit = False
         else:
