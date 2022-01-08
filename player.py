@@ -3,10 +3,10 @@ from const import *
 from loadImage import loadImage
 
 
-class Player(pygame.sprite.Sprite):               # писала Алия(1-30)
-    image = loadImage("dragon_sheet8x2.png")
+class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
+    image = loadImage("динозавр 4.png", -1)
 
-    # класс героя, пока это шарик
+    # класс героя, пока это динозавр с урока
     def __init__(self, v, screen, columns, rows, *group):
         super().__init__(*group)
         self.v = v
@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(1-30)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(0, 150)
+        self.money_in_one_race = 0
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
@@ -35,8 +36,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(1-30)
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
 
-    def run(self):          #писала София(38-53)
-        # print('герой', clock.tick())
+    def run(self):
         if self.x_pos < WINDOW_WIDTH // 2:
             self.x_pos += self.v / 1000
         else:
@@ -51,3 +51,20 @@ class Player(pygame.sprite.Sprite):               # писала Алия(1-30)
 
     def is_ball_going(self):
         return self.going
+
+    def coins_check(self, *args):
+        coins_sprite = args[0]
+        if pygame.sprite.spritecollide(self, coins_sprite, False):
+            self.money_in_one_race += len(pygame.sprite.spritecollide(self, coins_sprite, False))
+        pygame.sprite.spritecollide(self, coins_sprite, True)
+
+    def count_money(self):
+        print(self.money_in_one_race)
+
+    def text_money(self, screen):
+        font = pygame.font.Font(None, 50)
+        text = font.render(str(self.money_in_one_race), True, 'White')
+        screen.blit(text, (700, 10))
+
+    def return_number_money_in_one_race(self):
+        return int(self.money_in_one_race)
