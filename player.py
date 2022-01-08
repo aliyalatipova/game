@@ -5,6 +5,8 @@ from All_money_counter import *
 
 class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
     image = loadImage("динозавр 4.png", -1)
+    last_move_up = False
+    last_move_down = False
 
     # класс героя, пока это динозавр с урока
     def __init__(self, v, screen, columns, rows, *group):
@@ -45,8 +47,20 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
         keys = args[0]
         if keys[pygame.K_DOWN] and self.y_pos < WINDOW_HEIGHT / 2 + OBSTACLE_SIZE:
             self.y_pos = self.y_pos + OBSTACLE_SIZE
+            self.last_move_down = True
         elif keys[pygame.K_UP] and self.y_pos > WINDOW_HEIGHT / 2 - OBSTACLE_SIZE:
             self.y_pos = self.y_pos - OBSTACLE_SIZE
+            self.last_move_up = True
+
+    def reset_move_flags(self):
+        self.last_move_up = False
+        self.last_move_down = False
+
+    def was_last_move_up(self):
+        return self.last_move_up
+
+    def was_last_move_down(self):
+        return self.last_move_down
 
     def is_ball_going(self):
         return self.going

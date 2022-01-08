@@ -21,7 +21,7 @@ def start_screen(screen):
     all_money_counter = AllMoneyCounter()
     all_money_counter.load_from_txt()
     coins = str(all_money_counter.money_at_start_of_race)
-    intro_text = ["GO FAST                                                    Монет заработано: " + coins,
+    intro_text = ["GO FAST                                         Монет заработано: " + coins,
                   "",
                   "Чтобы управлять игроком, необходимо,",
                   "использовать клавиши 'вверх', 'вниз'.",
@@ -30,7 +30,7 @@ def start_screen(screen):
 
     fon = pygame.transform.scale(loadImage('fon.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
+    font = pygame.font.Font(None, 40)
     text_coord = 50
     for line in intro_text:
         string_rendered = font.render(line, True, pygame.Color('white'))
@@ -294,7 +294,16 @@ def main():
                         if lose_screen(screen, all_money_counter):
                             hit = False
                             running = True
-                            player.x_pos -= 80
+                            if player.was_last_move_up():
+                                # отодвинем персонажа вниз
+                                player.y_pos += OBSTACLE_SIZE
+                            elif player.was_last_move_down():
+                                # отодвинем персонажа вверх
+                                player.y_pos -= OBSTACLE_SIZE
+                            else:
+                                # отодвинем персонажа немного назад
+                                player.x_pos -= PLAYER_SHIFT
+
                 if sprite.rect.x + OBSTACLE_SIZE < WINDOW_WIDTH // 2:
                     counter -= 1
 
@@ -304,6 +313,7 @@ def main():
                 end_of_one_race(player, all_money_counter)
                 running = False
 
+            player.reset_move_flags()
             pygame.display.flip()
 
         if hit is True:
