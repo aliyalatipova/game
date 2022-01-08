@@ -13,5 +13,3 @@ class LevelLoader:
 
         f.close()
         return map1
-
-
