@@ -1,4 +1,4 @@
-import pygame
+import pygame           #писала Алия(1-44)
 from const import *
 from loadImage import loadImage
 

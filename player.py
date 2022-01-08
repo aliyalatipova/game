@@ -3,7 +3,7 @@ from loadImage import loadImage
 from All_money_counter import *
 
 
-class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
+class Player(pygame.sprite.Sprite):               # писала Алия(1-44)
     image = loadImage("динозавр 4.png", -1)
     last_move_up = False
     last_move_down = False
@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
         else:
             self.going = False
 
-    def change(self, *args):
+    def change(self, *args):                #писала София(46-63)
         keys = args[0]
         if keys[pygame.K_DOWN] and self.y_pos < WINDOW_HEIGHT / 2 + OBSTACLE_SIZE:
             self.y_pos = self.y_pos + OBSTACLE_SIZE
@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):               # писала Алия(26-35)
     def is_ball_going(self):
         return self.going
 
-    def coins_check(self, all_money_counter, *args):
+    def coins_check(self, all_money_counter, *args): # писала Алия(65-83)
         coins_sprite = args[0]
         if pygame.sprite.spritecollide(self, coins_sprite, False):
             all_money_counter.set_money_in_one_race(all_money_counter.get_money_in_one_race() + len(pygame.sprite.spritecollide(self, coins_sprite, False)))

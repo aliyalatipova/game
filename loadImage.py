@@ -3,7 +3,7 @@ import sys
 import os
 
 
-def loadImage(name, color_key=None):                           # писала алия
+def loadImage(name, color_key=None):                           # писала алия(1-16)
     fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")

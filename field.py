@@ -2,7 +2,7 @@ import pygame
 from const import *
 
 
-class Field:            # писала Алия
+class Field:            # писала Алия (1-11)
     def __init__(self, screen):
         self.screen = screen
 

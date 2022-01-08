@@ -1,4 +1,4 @@
-import pygame
+import pygame           #писала София(1-37)
 import random
 from loadImage import loadImage
 from const import *

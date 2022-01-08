@@ -1,4 +1,4 @@
-import pygame
+import pygame           # писала Алия(1-31)
 
 
 class AllMoneyCounter:
@@ -30,7 +30,7 @@ class AllMoneyCounter:
         self.money_at_start_of_race = self.money_in_one_race + self.money_at_start_of_race
         self.money_in_one_race = 0
 
-    def get_money_at_start_of_race(self):
+    def get_money_at_start_of_race(self):       # писала София (33-46)
         return self.money_at_start_of_race
 
     def set_money_at_start_of_race(self, money_at_start_of_race):

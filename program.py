@@ -12,7 +12,7 @@ import sys
 import random
 
 
-def terminate():            # писала софия(1-143)
+def terminate():            # писала софия(1-186)
     pygame.quit()
     sys.exit()
 
@@ -187,7 +187,7 @@ def win_screen(screen):
 
 
 # обработка списка уровня, писала алия
-def list_processing(level, some, obst_sprites, coins_sprites):  # писала алия
+def list_processing(level, some, obst_sprites, coins_sprites):  # писала алия (190-288)
     if level == 1 or level == 2 or level == 3:
         for i in range(len(some)):
             for j in range(3):
@@ -284,7 +284,7 @@ def main():
                         coins_sprites.update(False)
                         player.run()
 
-            counter = len(obst_sprites)
+            counter = len(obst_sprites)         # писала София(287-331)
             for sprite in obst_sprites.spritedict:
                 if (player.y_pos > sprite.rect.y) and (player.y_pos < sprite.rect.y + OBSTACLE_SIZE):
                     if player.x_pos + R >= sprite.rect.x and player.x_pos - R <= sprite.rect.x + OBSTACLE_SIZE:

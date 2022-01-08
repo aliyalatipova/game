@@ -1,7 +1,7 @@
 class LevelLoader:
     level = 0
 
-    def __init__(self, level):              # писала софия (1-16)
+    def __init__(self, level):              # писала софия (1-15)
         self.level = level
 
     def load(self):
