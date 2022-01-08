@@ -1,4 +1,4 @@
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 800       #писала софия (1-8)
 WINDOW_HEIGHT = 400
 OBSTACLE_SIZE = 100
 fps = 30

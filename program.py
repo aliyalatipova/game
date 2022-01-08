@@ -10,7 +10,7 @@ from All_money_counter import AllMoneyCounter
 import sys
 
 
-def terminate():
+def terminate():            # писала софия(1-143)
     pygame.quit()
     sys.exit()
 

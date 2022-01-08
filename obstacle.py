@@ -3,7 +3,7 @@ from const import *
 from loadImage import loadImage
 
 
-class Obstacle(pygame.sprite.Sprite):       # писала Алия, исправила София(76-85)
+class Obstacle(pygame.sprite.Sprite):       # писала Алия, исправила София(1-16)
     image = loadImage("obst2.png")
 
     def __init__(self, v, x, y, *group):
@@ -15,6 +15,6 @@ class Obstacle(pygame.sprite.Sprite):       # писала Алия, испра�
         self.rect.y = 50 + y * OBSTACLE_SIZE
         self.x_pos = float(self.rect.x)
 
-    def update(self, *args):            #писала София(89-87)
+    def update(self, *args):            #писала София(18-21)
         self.x_pos -= self.v / 1000
         self.rect.x = int(self.x_pos)
