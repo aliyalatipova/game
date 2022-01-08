@@ -1,4 +1,5 @@
 import pygame
+from particle import Particle
 from player import Player
 from obstacle import Obstacle
 from field import Field
@@ -8,6 +9,7 @@ from loadImage import loadImage
 from Coins2 import Coins2
 from All_money_counter import AllMoneyCounter
 import sys
+import random
 
 
 def terminate():            # писала софия(1-143)
@@ -98,21 +100,26 @@ def lose_screen(screen, all_money_counter):
                   "Нажмите любую кнопку, чтобы начать заново."]
     if all_money_counter.get_all_money() > LIFE_PRICE:
         intro_text.append("Либо нажмите [D], чтобы купить жизнь за " + str(LIFE_PRICE) + " монет.")
-    fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
-    screen.blit(fon, (0, 0))
+    fon = pygame.transform.scale(loadImage('lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
     font = pygame.font.Font(None, 45)
-    text_coord = 65
-    for line in intro_text:
-        string_rendered = font.render(line, True, pygame.Color('red'))
-        intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 10
-        text_coord += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
-    clock = pygame.time.Clock()
 
     while True:
+        screen.blit(fon, (0, 0))
+        text_coord = 65
+        for line in intro_text:
+            string_rendered = font.render(line, True, pygame.Color('red'))
+            intro_rect = string_rendered.get_rect()
+            text_coord += 10
+            intro_rect.top = text_coord
+            delta = random.randrange(3) - 1
+            intro_rect.top += delta
+            intro_rect.x = 10
+            delta = random.randrange(3) - 1
+            intro_rect.x += delta
+            text_coord += intro_rect.height
+            screen.blit(string_rendered, intro_rect)
+        clock = pygame.time.Clock()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
@@ -130,30 +137,51 @@ def lose_screen(screen, all_money_counter):
         clock.tick(fps)
 
 
+def create_particles(position, all_sprites):
+    # количество создаваемых частиц
+    particle_count = 20
+    # возможные скорости
+    numbers = range(-5, 6)
+    for _ in range(particle_count):
+        Particle(position, random.choice(numbers), random.choice(numbers), all_sprites)
+
+
 def win_screen(screen):
     intro_text = ["Вы выиграли!", "",
-                  "Нажмите любую кнопку", "чтобы закончить."]
-    fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
-    screen.blit(fon, (0, 0))
+                  "Нажмите любую кнопку,", "чтобы закончить."]
     font = pygame.font.Font(None, 75)
-    text_coord = 75
-    for line in intro_text:
-        string_rendered = font.render(line, True, pygame.Color('green'))
-        intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 10
-        text_coord += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
-    clock = pygame.time.Clock()
+    fon = pygame.transform.scale(loadImage('win_lose.jpg'), (WINDOW_WIDTH, WINDOW_HEIGHT))
 
+    all_sprites = pygame.sprite.Group()
+    clock = pygame.time.Clock()
+    fire = 0
     while True:
+        screen.blit(fon, (0, 0))
+        text_coord = 75
+        for line in intro_text:
+            string_rendered = font.render(line, True, pygame.Color('green'))
+            intro_rect = string_rendered.get_rect()
+            text_coord += 10
+            intro_rect.top = text_coord
+            intro_rect.x = 10
+            text_coord += intro_rect.height
+            screen.blit(string_rendered, intro_rect)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
             elif event.type == pygame.KEYDOWN or \
                     event.type == pygame.MOUSEBUTTONDOWN:
                 return
+
+        if fire == 0:
+            create_particles((int(WINDOW_WIDTH * random.random()), int(WINDOW_HEIGHT * random.random())), all_sprites)
+        fire += 1
+        if fire == FIRE_DELAY:
+            fire = 0
+
+        all_sprites.update()
+        all_sprites.draw(screen)
         pygame.display.flip()
         clock.tick(fps)
 
@@ -280,7 +308,6 @@ def main():
 
         if hit is True:
             end_of_one_race(player, all_money_counter)
-            # lose_screen(screen, all_money_counter)
             level = start_screen(screen)
             hit = False
         else:

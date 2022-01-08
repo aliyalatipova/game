@@ -1,4 +1,3 @@
-import pygame
 from const import *
 from loadImage import loadImage
 from All_money_counter import *
